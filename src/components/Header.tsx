@@ -13,6 +13,7 @@ const Header = () => {
 
   const fetchCategories = useAppStore((state) => state.fetchCategories);
   const categories = useAppStore((state) => state.categories);
+  const searchRecipes = useAppStore((state) => state.searchRecipes);
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -24,17 +25,20 @@ const Header = () => {
       ...searchFilters,
       [e.target.name]: e.target.value,
     });
-    console.log(searchFilters)
+   
   };
-  const handleSubmit = (e : FormEvent<HTMLFormElement>)=> {
-    e.preventDefault()
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     // validar
-    if (Object.values(searchFilters).includes("")){
-      alert("Please select a category or ingredient")
-      return
+    if (Object.values(searchFilters).includes("")) {
+      alert("Please select a category or ingredient");
+      return;
     }
+    //Consultar las recetas
+    searchRecipes(searchFilters);
+  };
 
-  }
+
   return (
     <>
       <header
@@ -73,9 +77,10 @@ const Header = () => {
             </nav>
           </div>
           {isHome && (
-            <form 
-            onSubmit={handleSubmit}
-            className=" md:w-1/2 2xl: w-1/3  bg-orange-400 my-32 space-y-6 p-10 rounded-lg shadow ">
+            <form
+              onSubmit={handleSubmit}
+              className=" md:w-1/2 2xl: w-1/3  bg-orange-400 my-32 space-y-6 p-10 rounded-lg shadow "
+            >
               <div className=" space-y-4">
                 <label
                   htmlFor="ingredient"
@@ -121,7 +126,6 @@ const Header = () => {
                 </select>
               </div>
               <input
-             
                 type="submit"
                 value="Buscar Receta"
                 className=" cursor-pointer bg-mint-500 text-white font-extrabold w-full p-2 rounded-lg uppercase backgroundImage"
