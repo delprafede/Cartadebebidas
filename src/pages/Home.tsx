@@ -1,15 +1,26 @@
-import { useAppStore } from "../stores/useAppStore"
-
-
-
+import { useMemo } from "react";
+import { useAppStore } from "../stores/useAppStore";
+import DrinkCard from "../components/DrinkCard";
 
 const Home = () => {
+  const drinks = useAppStore((state) => state.drinks);
 
-  useAppStore((state)=> state.categories)
-
+  const hasDrinks = useMemo(() => drinks.drinks.length > 0, [drinks]);
   return (
-   <h1>inicio</h1>
-  )
-}
+    <div className=" grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 my-10 gap-10">
+      {hasDrinks ? (
+        <>
+          {drinks.drinks.map((drink) => {
+            return <DrinkCard key={drink.idDrink} drink={drink} />;
+          })}
+        </>
+      ) : (
+        <p className=" my-10 text-center text-2xl">
+          No hay resultados aun, utiliza el formulario para buscar recetas
+        </p>
+      )}
+    </div>
+  );
+};
 
-export default Home
+export default Home;
