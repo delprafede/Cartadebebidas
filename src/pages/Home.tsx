@@ -7,7 +7,7 @@ const Home = () => {
 
   const hasDrinks = useMemo(() => drinks.drinks.length > 0, [drinks]);
   return (
-    <div className=" grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 my-10 gap-10">
+    <div className=" grid  md:grid-cols-2 lg:grid-cols-3  my-10 gap-10">
       {hasDrinks ? (
         <>
           {drinks.drinks.map((drink) => {

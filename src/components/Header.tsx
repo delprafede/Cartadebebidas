@@ -16,7 +16,7 @@ const Header = () => {
   const searchRecipes = useAppStore((state) => state.searchRecipes);
   useEffect(() => {
     fetchCategories();
-  }, []);
+  }, [searchFilters]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
