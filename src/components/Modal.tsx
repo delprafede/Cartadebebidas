@@ -1,5 +1,3 @@
-// import { Dialog, Transition } from '@headlessui/react';
-// import { Fragment } from 'react';
 import { JSX } from "react";
 import { useAppStore } from "../stores/useAppStore";
 import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
@@ -9,23 +7,26 @@ const Modal = () => {
   const modal = useAppStore((state) => state.modal);
   const closeModal = useAppStore((state) => state.closeModal);
   const selectdDrink = useAppStore((state) => state.selectdDrink);
+  const handleClickFavorites = useAppStore(
+    (state) => state.handleClickFavorites
+  );
+  const favoritesExists = useAppStore((state) => state.favoritesExists);
 
-  const renderIngredients = ()=> {
-    
-    const ingredients : JSX.Element[] = [];
-    for(let i=1; i <= 6; i++) {
-      const ingredient = selectdDrink[`strIngredient${i}` as keyof SelectDrink]
-      const measure = selectdDrink[`strMeasure${i}` as keyof SelectDrink]
-    if (ingredient && measure) {
-      ingredients.push(
-        <li key={i} className="flex items-center mb-2">
-          {ingredient} - {measure}
-        </li>
-      )
+  const renderIngredients = () => {
+    const ingredients: JSX.Element[] = [];
+    for (let i = 1; i <= 6; i++) {
+      const ingredient = selectdDrink[`strIngredient${i}` as keyof SelectDrink];
+      const measure = selectdDrink[`strMeasure${i}` as keyof SelectDrink];
+      if (ingredient && measure) {
+        ingredients.push(
+          <li key={i} className="flex items-center mb-2">
+            {ingredient} - {measure}
+          </li>
+        );
+      }
     }
-    }
-    return ingredients
-  }
+    return ingredients;
+  };
   return (
     <>
       <Dialog
@@ -60,9 +61,7 @@ const Modal = () => {
               >
                 Ingredientes y Cantidades
               </DialogTitle>
-              <p>
-              {renderIngredients()}
-              </p>
+              <p>{renderIngredients()}</p>
               <DialogTitle
                 as="h3"
                 className="  text-black text-2xl text-center
@@ -79,10 +78,16 @@ const Modal = () => {
                   Cerrar
                 </Button>
                 <Button
-                  className=" w-full items-center gap-2 rounded-md bg-orange-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-orange-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
+                  onClick={() => {
+                    handleClickFavorites(selectdDrink);
+                    closeModal();
+                  }}
+                  className=" transition ease-out duration-500 w-full items-center gap-2 rounded-md bg-orange-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-orange-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
                   // onClick={}
                 >
-                  Agregar a Favoritos
+                  {favoritesExists(selectdDrink.idDrink)
+                    ? "Eliminar de Favoritos"
+                    : "Agregar a Favoritos"}
                 </Button>
               </div>
             </DialogPanel>

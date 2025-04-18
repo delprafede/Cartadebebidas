@@ -10,8 +10,8 @@ export type RecipesSliceType = {
     modal: boolean
     fetchCategories: () => void
     searchRecipes: (searchFilters: SearchFilter) => void
-    getDetailDrink: (id : Drink["idDrink"])=> void
-    closeModal: ()=> void
+    getDetailDrink: (id: Drink["idDrink"]) => void
+    closeModal: () => void
 }
 //seteamos para guardar en el stado despues de typear 
 export const createRecipesSlace: StateCreator<RecipesSliceType> = (set) => ({
@@ -32,20 +32,20 @@ export const createRecipesSlace: StateCreator<RecipesSliceType> = (set) => ({
 
     searchRecipes: async (searchFilters) => {
         const drinks = await getRecipes(searchFilters)
-        console.log(drinks)
-        set({ 
-            drinks 
+
+        set({
+            drinks
         })
     },
-    getDetailDrink: async (id)=> {
-       const selectdDrink = await (selectDrink(id))
-       set({
-           selectdDrink, 
-           modal: true
+    getDetailDrink: async (id) => {
+        const selectdDrink = await (selectDrink(id))
+        set({
+            selectdDrink,
+            modal: true
         })
-        console.log(selectdDrink)
+
     },
-    closeModal: ()=> {
+    closeModal: () => {
         set({
             modal: false,
             selectdDrink: {} as SelectDrink

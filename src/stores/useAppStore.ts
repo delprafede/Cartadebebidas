@@ -2,8 +2,10 @@
 
 import { create} from "zustand"
 import { createRecipesSlace, RecipesSliceType } from "./recipeSlace"
+import { createFavorSlace, FavorSlateType } from "./favorSlace"
 
-export const useAppStore = create<RecipesSliceType>((...a)=> ({
+export const useAppStore = create<RecipesSliceType & FavorSlateType>((...a)=> ({
     // state
-    ...createRecipesSlace(...a)
+    ...createRecipesSlace(...a),
+    ...createFavorSlace(...a)
 }))
