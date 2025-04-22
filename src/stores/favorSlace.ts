@@ -1,17 +1,18 @@
 
 import { StateCreator } from "zustand"
 import { SelectDrink } from "../types"
-import { createRecipesSlace } from "./recipeSlace"
+
 
 
 export type FavorSlateType = {
     favorites: SelectDrink[]
     handleClickFavorites: (recipe: SelectDrink) => void
     favoritesExists: (id: SelectDrink["idDrink"]) => boolean
+    loadFormStorage: () => void
 }
 
 
-export const createFavorSlace: StateCreator<FavorSlateType> = (set, get, api) => ({
+export const createFavorSlace: StateCreator<FavorSlateType> = (set, get) => ({
     favorites: [],
     handleClickFavorites: (recipe) => {
         //hacemos un delete 
@@ -25,10 +26,20 @@ export const createFavorSlace: StateCreator<FavorSlateType> = (set, get, api) =>
                 favorites: [...state.favorites, recipe]
             }))
         }
-        createRecipesSlace(set, get , api)
+        localStorage.setItem("favorites", JSON.stringify(get().favorites))
     },
 
     favoritesExists: (id) => {
         return get().favorites.some((favorito) => favorito.idDrink === id)
+    },
+
+    loadFormStorage: () => {
+        const storageFavorites = localStorage.getItem("favorites")
+        if (storageFavorites) {
+            set({
+                favorites: JSON.parse(storageFavorites)
+            })
+
+        }
     }
 })

@@ -16,7 +16,7 @@ const Header = () => {
   const searchRecipes = useAppStore((state) => state.searchRecipes);
   useEffect(() => {
     fetchCategories();
-  }, [searchFilters]);
+  }, []);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
@@ -25,7 +25,6 @@ const Header = () => {
       ...searchFilters,
       [e.target.name]: e.target.value,
     });
-   
   };
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,7 +36,6 @@ const Header = () => {
     //Consultar las recetas
     searchRecipes(searchFilters);
   };
-
 
   return (
     <>
